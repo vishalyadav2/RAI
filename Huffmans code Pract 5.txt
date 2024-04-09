@@ -1,0 +1,45 @@
+import heapq
+class node:
+    def __init__(self, freq, symbol, left=None, right=None):
+        self.freq = freq
+        self.symbol = symbol
+        self.left = left
+        self.right = right
+        self.huff = ''
+    def __lt__(self, nxt):
+        return self.freq < nxt.freq
+
+def print_nodes(node, val=''):
+    new_val = val + str(node.huff)
+    if (node.left):
+        print_nodes(node.left, new_val)
+    if (node.right):
+        print_nodes(node.right, new_val)
+    if (not node.left and not node.right):
+        print(f"{node.symbol} -> {new_val}")
+
+
+def main():
+    chars = input("Enter characters separated by spaces: ").split()
+    freq = list(map(int, input("Enter corresponding frequencies separated by spaces: ").split()))
+    if len(chars) != len(freq):
+        print("Error: Number of characters and frequencies should be the same.")
+        return
+    nodes = []
+    for x in range(len(chars)):
+        nodes.append(node(freq[x], chars[x]))
+    heapq.heapify(nodes)
+    root = build_huffman_tree(nodes)
+    print_nodes(root)
+
+def build_huffman_tree(nodes):
+    while len(nodes) > 1:
+        left = heapq.heappop(nodes)
+        right = heapq.heappop(nodes)
+        left.huff = 0
+        right.huff = 1
+        new_node = node(left.freq + right.freq, left.symbol + right.symbol, left, right)
+        heapq.heappush(nodes, new_node)
+    return nodes[0]
+if __name__ == "__main__":
+    main()

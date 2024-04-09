@@ -1,0 +1,43 @@
+import random
+
+def is_prime(n, k=5):
+    if n <= 1:
+        return False
+    elif n <= 3:
+        return True
+    elif n % 2 == 0 or n % 3 == 0:
+        return False
+    for _ in range(k):
+        a = random.randint(2, n - 2)
+        if pow(a, n - 1, n) != 1:
+            return False
+
+    return True
+
+def generate_primes(count):
+    primes = []
+    num = 2
+    while len(primes) < count:
+        if is_prime(num):
+            primes.append(num)
+        num += 1
+    return primes
+
+def verify_euclids_theorem():
+    primes = generate_primes(10)
+    print("First 10 prime numbers:", primes)
+
+    print("Euclid's Theorem: There are infinitely many primes.")
+
+def verify_fermats_theorem(p):
+    a = random.randint(2, p - 1)
+    if pow(a, p - 1, p) == 1:
+        print(f"Fermat's Little Theorem holds for {p}.")
+    else:
+        print(f"Fermat's Little Theorem does not hold for {p}.")
+
+# Verify Euclid's Theorem
+verify_euclids_theorem()
+
+# Verify Fermat's Little Theorem for a specific prime 
+verify_fermats_theorem(17)

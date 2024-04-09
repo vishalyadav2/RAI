@@ -1,0 +1,29 @@
+def cycle_sort(arr):
+    n = len(arr)
+    for start in range(n - 1):
+        key = arr[start]
+        location = start
+        for i in range(start + 1, n):
+            if arr[i] < key:
+                location += 1
+        if location == start:
+            continue
+        while key == arr[location]:
+            location += 1
+        if location != start:
+            arr[location], key = key, arr[location]
+            while location != start:
+                location = start
+                for i in range(start + 1, n):
+                    if arr[i] < key:
+                        location += 1
+                while key == arr[location]:
+                    location += 1
+                if key != arr[location]:
+                    arr[location], key = key, arr[location]
+
+if __name__ == "__main__":
+    user_input = input("Enter numbers separated by commas: \n" ).strip()
+    unsorted = [int(item) for item in user_input.split(",")]
+    cycle_sort(unsorted)
+    print("Sorted array:", unsorted)
